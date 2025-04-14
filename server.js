@@ -1,9 +1,15 @@
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
+const PORT = process.env.PORT || 3000;
+
 const httpServer = createServer();
 const io = new Server(httpServer, {
-  cors: "https://tic-tac-toe-react-socketio-game.netlify.app/",
+  cors: {
+    origin: "https://tic-tac-toe-react-socketio-game.netlify.app",
+    methods: ["GET", "POST"],
+  }
+  
 });
 
 const allUsers = {};
@@ -82,4 +88,6 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(3000);
+httpServer.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
